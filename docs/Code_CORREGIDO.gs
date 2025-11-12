@@ -11,12 +11,12 @@ const CONFIG = {
   // Configuración de WhatsApp (usando API de WhatsApp Business o Twilio)
   WHATSAPP_ENABLED: false, // Cambiar a true cuando configures WhatsApp
   WHATSAPP_API_TOKEN: 'TU_TOKEN_API_WHATSAPP',
-  WHATSAPP_FROM: 'TU_NUMERO_WHATSAPP', // Formato: +56912345678
+  WHATSAPP_FROM: '+56968617845', // Formato: +56912345678
   
   // Configuración de Email
   EMAIL_ENABLED: true,
-  EMAIL_FROM: 'reservas@masic.com', // Cambiar por tu email de Gmail
-  EMAIL_ADMIN: 'admin@masic.com', // Cambiar por el email del administrador
+  EMAIL_FROM: 'transportesmasic@gmail.com', // Cambiar por tu email de Gmail
+  EMAIL_ADMIN: 'cristianricardo.aguilera@gmail.com', // Cambiar por el email del administrador
   
   // Configuración de Overbooking
   OVERBOOKING_PERCENTAGE: 10, // 10% de overbooking permitido
@@ -329,7 +329,7 @@ function enviarEmailConfirmacion(datos) {
   }
   
   try {
-    const subject = '✅ Confirmación de Reserva - MASIC Transport';
+    const subject = '✅ Confirmación de Reserva - Transportes Masic';
     
     const htmlBody = `
       <!DOCTYPE html>
@@ -348,7 +348,7 @@ function enviarEmailConfirmacion(datos) {
       <body>
         <div class="container">
           <div class="header">
-            <h1>🚌 MASIC Transport</h1>
+            <h1>🚌 Transportes Masic</h1>
             <p>Confirmación de Reserva</p>
           </div>
           <div class="content">
@@ -364,6 +364,7 @@ function enviarEmailConfirmacion(datos) {
               <div class="info-row"><span class="label">Ruta:</span> ${datos.origen} → ${datos.destino}</div>
               <div class="info-row"><span class="label">Pasajeros:</span> ${datos.pasajeros}</div>
               <div class="info-row"><span class="label">Tipo:</span> ${datos.tipoViaje}</div>
+              <div class="info-row"><span class="label">Observaciones:</span> ${datos.Observaciones}</div>
             </div>
             
             <p><strong>Estado:</strong> <span style="color: #f59e0b;">⏳ Pendiente de Confirmación</span></p>
