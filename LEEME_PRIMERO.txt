@@ -1,0 +1,122 @@
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║              🚌  RESERVAS MASIC v1.0  🚌                         ║
+║         Sistema de Reservas de Transporte de Pasajeros           ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+¡FELICITACIONES! 🎉
+
+Has recibido un sistema COMPLETO y PROFESIONAL de reservas que incluye:
+
+✅ Formulario web moderno y responsive
+✅ Notificaciones automáticas por Email
+✅ Notificaciones automáticas por WhatsApp (opcional)
+✅ Base de datos en Google Sheets (gratis)
+✅ Control de overbooking inteligente
+✅ Códigos de reserva únicos
+✅ Gestión de estados de reservas
+✅ Documentación completa
+
+═══════════════════════════════════════════════════════════════════
+
+🚀 COMIENZA EN 3 PASOS (5 MINUTOS):
+
+1. 📖 Abre y lee: BIENVENIDA.md
+   └─ Te dará un resumen visual del sistema
+
+2. ⚡ Abre y sigue: INICIO_RAPIDO.md  
+   └─ 5 pasos simples de configuración
+
+3. 🎊 ¡Empieza a recibir reservas!
+   └─ Tu sistema estará funcionando
+
+═══════════════════════════════════════════════════════════════════
+
+📁 ARCHIVOS PRINCIPALES:
+
+📄 INDICE.md                 ← Mapa completo de toda la documentación
+📄 BIENVENIDA.md            ← Empieza aquí (2 minutos)
+📄 INICIO_RAPIDO.md         ← Configuración express (5 minutos)
+📄 README.md                ← Documentación completa (15 minutos)
+📄 ARQUITECTURA.md          ← Diagrama técnico (20 minutos)
+
+📁 docs/
+   ├─ INSTALACION.md        ← Guía paso a paso detallada
+   ├─ WHATSAPP_CONFIG.md    ← Configuración de WhatsApp
+   └─ Code.gs               ← Backend (Google Apps Script)
+
+📁 CSS, JS, HTML
+   ├─ index.html            ← Formulario web
+   ├─ css/styles.css        ← Estilos del sistema
+   └─ js/app.js             ← Lógica del cliente
+
+═══════════════════════════════════════════════════════════════════
+
+🎯 ¿PERDIDO? 
+
+Lee el archivo: INDICE.md
+└─ Tiene un mapa completo con:
+   • Descripción de cada archivo
+   • Orden de lectura recomendado
+   • Guías por objetivo
+   • Búsqueda rápida
+
+═══════════════════════════════════════════════════════════════════
+
+💡 TIPS IMPORTANTES:
+
+1. NO edites los archivos directamente aquí
+2. Extrae el ZIP a una carpeta de trabajo
+3. Lee BIENVENIDA.md antes que nada
+4. Sigue INICIO_RAPIDO.md para configurar
+5. Guarda tus cambios regularmente
+
+═══════════════════════════════════════════════════════════════════
+
+✨ CARACTERÍSTICAS DESTACADAS:
+
+• 100% Gratuito (excepto WhatsApp opcional)
+• Sin servidor (serverless)
+• Escalable hasta miles de reservas
+• Diseño profesional y moderno
+• Validaciones de seguridad
+• Control de capacidad automático
+• Notificaciones instantáneas
+• Base de datos en la nube
+
+═══════════════════════════════════════════════════════════════════
+
+📊 TIEMPO ESTIMADO:
+
+Lectura de documentación básica:    10 minutos
+Configuración del sistema:            5 minutos
+Primera reserva de prueba:            2 minutos
+                                    ─────────────
+TOTAL para estar operativo:          17 minutos
+
+═══════════════════════════════════════════════════════════════════
+
+🆘 ¿NECESITAS AYUDA?
+
+Cada documento incluye:
+• Instrucciones paso a paso
+• Solución de problemas
+• Tips y recomendaciones
+• Ejemplos prácticos
+
+═══════════════════════════════════════════════════════════════════
+
+🎊 PRÓXIMO PASO:
+
+           👉 ABRE: BIENVENIDA.md 👈
+
+═══════════════════════════════════════════════════════════════════
+
+Sistema Reservas MASIC v1.0
+Desarrollado con ❤️ para transformar tu gestión de transporte
+Noviembre 2025
+
+¡Éxito con tu sistema! 🚀
+
+═══════════════════════════════════════════════════════════════════
