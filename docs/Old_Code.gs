@@ -250,7 +250,7 @@ function verificarDisponibilidad(sheet, datos) {
 // === ENVIAR EMAIL DE CONFIRMACIÓN AL CLIENTE ===
 function enviarEmailConfirmacion(datos) {
   try {
-    const subject = '✅ Confirmación de Reserva - MASIC Transport';
+    const subject = '✅ Confirmación de Reserva - Transportes MASIC';
     
     const htmlBody = `
       <!DOCTYPE html>
@@ -271,7 +271,7 @@ function enviarEmailConfirmacion(datos) {
       <body>
         <div class="container">
           <div class="header">
-            <h1>🚌 MASIC Transport</h1>
+            <h1>🚌 Transportes Masic</h1>
             <p>Confirmación de Reserva</p>
           </div>
           <div class="content">
@@ -303,7 +303,7 @@ function enviarEmailConfirmacion(datos) {
             </ul>
           </div>
           <div class="footer">
-            <p>MASIC Transport - Sistema de Reservas</p>
+            <p>Transportes Masic - Sistema de Reservas</p>
             <p>Este es un correo automático, por favor no responda a este mensaje</p>
           </div>
         </div>
@@ -400,7 +400,7 @@ function enviarWhatsAppConfirmacion(datos) {
     
     // Mensaje de WhatsApp
     const mensaje = `
-🚌 *MASIC Transport*
+🚌 *Transportes Masic*
 ✅ *Reserva Confirmada*
 
 Hola ${datos.nombre},
