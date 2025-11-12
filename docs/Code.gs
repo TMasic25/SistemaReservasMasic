@@ -446,7 +446,7 @@ function enviarWhatsAppConfirmacion(datos) {
     const telefono = datos.telefono.replace(/[\s()-]/g, '');
     
     const mensaje = `
-🚌 *MASIC Transport*
+🚌 *Transportes Masic*
 ✅ *Reserva Confirmada*
 
 Hola ${datos.nombre},
