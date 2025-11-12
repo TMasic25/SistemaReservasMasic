@@ -6,7 +6,7 @@
 // === CONFIGURACIÓN ===
 const CONFIG = {
     // URL del Google Apps Script (DEBES REEMPLAZAR ESTO)
-    SCRIPT_URL: 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI',
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwYuU81cM4m3BUnT8sNw5rZXN2bNp0fE0cIQLe_cflZEmVvh3SjWoDn5_9SPiYC1BzPow/exec',
     
     // Configuración de fechas
     MIN_DAYS_ADVANCE: 1, // Días mínimos de anticipación
