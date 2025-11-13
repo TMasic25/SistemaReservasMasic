@@ -253,7 +253,7 @@ async function handleSubmit(e) {
     }
     
     // Verificar URL del script
-    if (CONFIG.SCRIPT_URL === 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI') {
+    if (CONFIG.SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbwOSSW33zw7iHgll8gwA7Pqmxs0_7utXPdnlq8d7DgO3tD11i_SBr_HPIfkA5xRTH_mNg/exec') {
         Swal.fire({
             icon: 'warning',
             title: 'Configuración pendiente',
