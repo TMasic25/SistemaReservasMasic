@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Sistema de Reservas Masic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --masic-turquoise: #0487a8;
+            --masic-dark-gray: #58595B;
+            --masic-light-gray: #CCCCCC;
+            --masic-white: #FFFFFF;
+            --masic-gradient: linear-gradient(135deg, #0487a8 0%, #036a82 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            color: var(--masic-dark-gray);
+        }
+
+        .header {
+            background: var(--masic-gradient);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            max-width: 120px;
+            height: auto;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .header-title p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-role {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            color: var(--masic-dark-gray);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background: var(--masic-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(4, 135, 168, 0.3);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-box input {
+            padding: 10px 15px;
+            border: 2px solid var(--masic-light-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            width: 250px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--masic-turquoise);
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--masic-dark-gray);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--masic-light-gray);
+        }
+
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-admin {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-staff {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .badge-cliente {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-activo {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .badge-inactivo {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .badge-bloqueado {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .btn-action {
+            background: none;
+            border: 1px solid var(--masic-light-gray);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            margin-right: 5px;
+        }
+
+        .btn-action:hover {
+            border-color: var(--masic-turquoise);
+            color: var(--masic-turquoise);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            color: var(--masic-dark-gray);
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .btn-close:hover {
+            color: var(--masic-dark-gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--masic-dark-gray);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--masic-light-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--masic-turquoise);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--masic-dark-gray);
+            border: 2px solid var(--masic-light-gray);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--masic-turquoise);
+            color: var(--masic-turquoise);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--masic-turquoise);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                max-width: 100px;
+            }
+
+            .header-title h1 {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .table-container {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <img src="Logoajustado.png" alt="Masic Logo" class="logo" onerror="this.style.display='none';">
+            <div class="header-title">
+                <h1>Panel de Administración</h1>
+                <p>Gestión de Usuarios</p>
+            </div>
+        </div>
+        <div class="header-user">
+            <div class="user-info">
+                <div class="user-name" id="userName">Cargando...</div>
+                <div class="user-role" id="userRole">Admin</div>
+            </div>
+            <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="container">
+        <h1 class="page-title">Gestión de Usuarios</h1>
+        <p class="page-subtitle">Administra los usuarios del sistema de reservas</p>
+
+        <!-- Alertas -->
+        <div id="alertContainer"></div>
+
+        <!-- Barra de Acciones -->
+        <div class="actions-bar">
+            <button class="btn-primary" id="btnNuevoUsuario">
+                <span>➕</span> Nuevo Usuario
+            </button>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar usuarios...">
+            </div>
+        </div>
+
+        <!-- Card de Tabla -->
+        <div class="card">
+            <div id="loadingContainer" class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #999;">Cargando usuarios...</p>
+            </div>
+
+            <div id="tableContainer" style="display: none;">
+                <div class="table-container">
+                    <table id="usuariosTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Último Acceso</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTableBody">
+                            <!-- Se llenará dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">👥</div>
+                <h3>No hay usuarios registrados</h3>
+                <p>Comienza creando un nuevo usuario</p>
+            </div>
+        </div>
+
+        <!-- Link para volver -->
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: var(--masic-turquoise); text-decoration: none; font-weight: 500;">
+                ← Volver al Sistema de Reservas
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal Nuevo Usuario -->
+    <div class="modal" id="modalNuevoUsuario">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Crear Nuevo Usuario</h2>
+                <button class="btn-close" onclick="cerrarModal()">&times;</button>
+            </div>
+            <form id="formNuevoUsuario">
+                <div class="form-group">
+                    <label for="nuevoNombre">Nombre Completo</label>
+                    <input type="text" id="nuevoNombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="nuevoEmail">Correo Electrónico</label>
+                    <input type="email" id="nuevoEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="nuevoTelefono">Teléfono</label>
+                    <input type="tel" id="nuevoTelefono">
+                </div>
+                <div class="form-group">
+                    <label for="nuevoRol">Rol</label>
+                    <select id="nuevoRol" required>
+                        <option value="">Seleccionar...</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Staff">Staff</option>
+                        <option value="Cliente">Cliente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nuevoPassword">Contraseña</label>
+                    <input type="password" id="nuevoPassword" required placeholder="Mínimo 8 caracteres">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary" style="flex: 1;">Crear Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        
+        const SCRIPT_URL = 'TU_URL_DE_WEBAPP_AQUI';
+        let sessionId = localStorage.getItem('masic_session');
+        let usuariosData = [];
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+
+        window.addEventListener('DOMContentLoaded', async function() {
+            await verificarSesion();
+            await cargarUsuarios();
+        });
+
+        // ============================================
+        // FUNCIONES DE SESIÓN
+        // ============================================
+
+        async function verificarSesion() {
+            if (!sessionId) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accion: 'validarSesion',
+                        datos: { sessionId: sessionId }
+                    })
+                });
+
+                const resultado = await response.json();
+
+                if (!resultado.valida) {
+                    localStorage.removeItem('masic_session');
+                    localStorage.removeItem('masic_user');
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                if (resultado.usuario.rol !== 'Admin') {
+                    mostrarAlerta('No tienes permisos de administrador', 'error');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+                    return;
+                }
+
+                const userData = JSON.parse(localStorage.getItem('masic_user'));
+                document.getElementById('userName').textContent = userData.nombre;
+                document.getElementById('userRole').textContent = userData.rol;
+
+            } catch (error) {
+                console.error('Error:', error);
+                window.location.href = 'login.html';
+            }
+        }
+
+        // ============================================
+        // FUNCIONES DE UI
+        // ============================================
+
+        function mostrarAlerta(mensaje, tipo = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo}`;
+            alert.textContent = mensaje;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 300);
+            }, 5000);
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalNuevoUsuario').classList.remove('active');
+            document.getElementById('formNuevoUsuario').reset();
+        }
+
+        // ============================================
+        // CARGAR USUARIOS
+        // ============================================
+
+        async function cargarUsuarios() {
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accion: 'obtenerUsuarios',
+                        datos: { sessionId: sessionId }
+                    })
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    usuariosData = resultado.usuarios;
+                    mostrarUsuarios(usuariosData);
+                } else {
+                    mostrarAlerta('Error al cargar usuarios', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión', 'error');
+            } finally {
+                document.getElementById('loadingContainer').style.display = 'none';
+                document.getElementById('tableContainer').style.display = 'block';
+            }
+        }
+
+        function mostrarUsuarios(usuarios) {
+            const tbody = document.getElementById('usuariosTableBody');
+            tbody.innerHTML = '';
+
+            if (usuarios.length === 0) {
+                document.getElementById('tableContainer').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('tableContainer').style.display = 'block';
+            document.getElementById('emptyState').style.display = 'none';
+
+            usuarios.forEach(usuario => {
+                const tr = document.createElement('tr');
+                
+                const rolClass = usuario.rol.toLowerCase();
+                const estadoClass = usuario.estado.toLowerCase();
+                const ultimoAcceso = usuario.ultimoAcceso ? new Date(usuario.ultimoAcceso).toLocaleDateString() : 'Nunca';
+
+                tr.innerHTML = `
+                    <td>${usuario.id}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.telefono || '-'}</td>
+                    <td><span class="badge badge-${rolClass}">${usuario.rol}</span></td>
+                    <td><span class="badge badge-${estadoClass}">${usuario.estado}</span></td>
+                    <td>${ultimoAcceso}</td>
+                    <td>
+                        ${usuario.estado === 'Activo' ? 
+                            `<button class="btn-action" onclick="cambiarEstado(${usuario.id}, 'Inactivo')">Desactivar</button>` :
+                            `<button class="btn-action" onclick="cambiarEstado(${usuario.id}, 'Activo')">Activar</button>`
+                        }
+                        ${usuario.estado === 'Bloqueado' ? 
+                            `<button class="btn-action" onclick="cambiarEstado(${usuario.id}, 'Activo')">Desbloquear</button>` :
+                            ''
+                        }
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ============================================
+        // BUSCAR USUARIOS
+        // ============================================
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const busqueda = e.target.value.toLowerCase();
+            const usuariosFiltrados = usuariosData.filter(usuario => 
+                usuario.nombre.toLowerCase().includes(busqueda) ||
+                usuario.email.toLowerCase().includes(busqueda) ||
+                usuario.rol.toLowerCase().includes(busqueda)
+            );
+            mostrarUsuarios(usuariosFiltrados);
+        });
+
+        // ============================================
+        // CREAR USUARIO
+        // ============================================
+
+        document.getElementById('btnNuevoUsuario').addEventListener('click', function() {
+            document.getElementById('modalNuevoUsuario').classList.add('active');
+        });
+
+        document.getElementById('formNuevoUsuario').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const datos = {
+                nombre: document.getElementById('nuevoNombre').value,
+                email: document.getElementById('nuevoEmail').value,
+                telefono: document.getElementById('nuevoTelefono').value,
+                rol: document.getElementById('nuevoRol').value,
+                password: document.getElementById('nuevoPassword').value
+            };
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accion: 'crearUsuario',
+                        datos: {
+                            sessionId: sessionId,
+                            usuario: datos
+                        }
+                    })
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    mostrarAlerta('Usuario creado exitosamente', 'success');
+                    cerrarModal();
+                    await cargarUsuarios();
+                } else {
+                    mostrarAlerta(resultado.message || 'Error al crear usuario', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión', 'error');
+            }
+        });
+
+        // ============================================
+        // CAMBIAR ESTADO
+        // ============================================
+
+        async function cambiarEstado(userId, nuevoEstado) {
+            if (!confirm(`¿Estás seguro de cambiar el estado a "${nuevoEstado}"?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accion: 'modificarEstadoUsuario',
+                        datos: {
+                            sessionId: sessionId,
+                            userId: userId,
+                            nuevoEstado: nuevoEstado
+                        }
+                    })
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    mostrarAlerta('Estado actualizado correctamente', 'success');
+                    await cargarUsuarios();
+                } else {
+                    mostrarAlerta(resultado.message || 'Error al actualizar estado', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión', 'error');
+            }
+        }
+
+        // ============================================
+        // LOGOUT
+        // ============================================
+
+        document.getElementById('btnLogout').addEventListener('click', async function() {
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        accion: 'cerrarSesion',
+                        datos: { sessionId: sessionId }
+                    })
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                localStorage.removeItem('masic_session');
+                localStorage.removeItem('masic_user');
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html>
