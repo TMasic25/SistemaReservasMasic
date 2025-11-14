@@ -14,7 +14,7 @@
 // ============================================
 
 const MASIC_AUTH_CONFIG = {
-    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwOSSW33zw7iHgll8gwA7Pqmxs0_7utXPdnlq8d7DgO3tD11i_SBr_HPIfkA5xRTH_mNg/exec',
+    SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzYLp4TWJPH5vfOuh4DAFvmoiE9K0kYMEGNC0exHHRxd_axnqsQBsp9sLOgDFGebvsp8w/exec',
     SESSION_KEY: 'masic_session',
     USER_KEY: 'masic_user',
     REMEMBER_KEY: 'masic_remember'
