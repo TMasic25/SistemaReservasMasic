@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema de Reservas Masic</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --masic-turquoise: #0487a8;
             --masic-dark-gray: #58595B;
+            --masic-light-gray: #CCCCCC;
+            --masic-white: #FFFFFF;
             --masic-gradient: linear-gradient(135deg, #0487a8 0%, #036a82 100%);
         }
 
@@ -21,6 +27,19 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);
+            pointer-events: none;
         }
 
         .login-container {
@@ -31,11 +50,19 @@
             max-width: 450px;
             width: 100%;
             animation: slideIn 0.5s ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-header {
@@ -45,10 +72,13 @@
             text-align: center;
         }
 
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
         .logo-container img {
             max-width: 220px;
             height: auto;
-            margin-bottom: 20px;
         }
 
         .login-header h1 {
@@ -75,7 +105,7 @@
         .form-group input {
             width: 100%;
             padding: 13px 16px;
-            border: 2px solid #CCCCCC;
+            border: 2px solid var(--masic-light-gray);
             border-radius: 10px;
             font-size: 15px;
             transition: all 0.3s ease;
@@ -109,6 +139,23 @@
             font-size: 18px;
         }
 
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .remember-me label {
+            font-size: 14px;
+            color: var(--masic-dark-gray);
+            cursor: pointer;
+        }
+
         .btn-login {
             width: 100%;
             padding: 15px;
@@ -130,6 +177,18 @@
         .btn-login:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--masic-turquoise);
+            text-decoration: none;
+            font-size: 14px;
         }
 
         .alert {
@@ -137,6 +196,12 @@
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 14px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         .alert-error {
@@ -181,12 +246,21 @@
             padding: 20px;
             color: #999;
             font-size: 12px;
-            border-top: 1px solid #CCCCCC;
+            border-top: 1px solid var(--masic-light-gray);
         }
 
-        /* Iframe oculto para evitar recarga de página */
-        #hiddenFrame {
-            display: none;
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 10px;
+            }
+            
+            .login-header {
+                padding: 30px 20px;
+            }
+            
+            .login-body {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
@@ -194,7 +268,7 @@
     <div class="login-container">
         <div class="login-header">
             <div class="logo-container">
-                <img src="Logoajustado.png" alt="Masic Transportes" onerror="this.style.display='none';">
+                <img src="Logoajustado.png" alt="Masic Transportes Turismo" onerror="this.style.display='none';">
             </div>
             <h1>Sistema de Reservas</h1>
         </div>
@@ -202,19 +276,16 @@
         <div class="login-body">
             <div id="alertContainer"></div>
 
-            <!-- Formulario que se envía a iframe oculto -->
-            <form id="loginForm" target="hiddenFrame" method="GET">
-                <input type="hidden" name="accion" value="login">
-                
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
                     <input 
                         type="email" 
                         id="email" 
                         name="email" 
-                        value="admin@masic.com"
                         placeholder="tu@email.com"
                         required
+                        autocomplete="email"
                     >
                 </div>
 
@@ -225,9 +296,9 @@
                             type="password" 
                             id="password" 
                             name="password" 
-                            value="Admin123!"
                             placeholder="••••••••"
                             required
+                            autocomplete="current-password"
                         >
                         <button type="button" class="toggle-password-btn" id="togglePassword">
                             👁️
@@ -235,7 +306,10 @@
                     </div>
                 </div>
 
-                <input type="hidden" id="userAgent" name="userAgent">
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Mantener sesión iniciada</label>
+                </div>
 
                 <button type="submit" class="btn-login" id="btnLogin">
                     INICIAR SESIÓN
@@ -243,12 +317,11 @@
 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Validando credenciales...</p>
                 </div>
             </form>
 
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="recuperar-password.html" style="color: var(--masic-turquoise); text-decoration: none; font-size: 14px;">¿Olvidaste tu contraseña?</a>
+            <div class="forgot-password">
+                <a href="recuperar-password.html">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
 
@@ -257,105 +330,39 @@
         </div>
     </div>
 
-    <!-- Iframe oculto para recibir respuesta SIN CORS -->
-    <iframe id="hiddenFrame" name="hiddenFrame"></iframe>
-
     <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYLp4TWJPH5vfOuh4DAFvmoiE9K0kYMEGNC0exHHRxd_axnqsQBsp9sLOgDFGebvsp8w/exec';
 
-        // Establecer user agent
-        document.getElementById('userAgent').value = navigator.userAgent;
+        // ============================================
+        // TOGGLE PASSWORD
+        // ============================================
 
-        // Establecer action del formulario
-        document.getElementById('loginForm').action = SCRIPT_URL;
-
-        // Toggle password
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-            this.textContent = passwordInput.type === 'password' ? '👁️' : '🙈';
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? '👁️' : '🙈';
         });
 
-        // Manejar envío del formulario
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            mostrarCargando(true);
-            
-            // El formulario se envía automáticamente al iframe
-            // Esperamos la respuesta
-            setTimeout(verificarRespuesta, 2000);
-        });
+        // ============================================
+        // FUNCIONES DE UI
+        // ============================================
 
-        // Verificar respuesta del iframe
-        function verificarRespuesta() {
-            try {
-                const iframe = document.getElementById('hiddenFrame');
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                const respuesta = iframeDoc.body.textContent;
-                
-                if (respuesta) {
-                    const resultado = JSON.parse(respuesta);
-                    
-                    if (resultado.success) {
-                        // Guardar sesión
-                        localStorage.setItem('masic_session', resultado.session.sessionId);
-                        localStorage.setItem('masic_user', JSON.stringify({
-                            userId: resultado.session.userId,
-                            nombre: resultado.session.nombre,
-                            email: resultado.session.email,
-                            rol: resultado.session.rol
-                        }));
-                        
-                        mostrarAlerta('¡Bienvenido ' + resultado.session.nombre + '!', 'success');
-                        
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 1000);
-                    } else {
-                        mostrarAlerta(resultado.message || 'Credenciales incorrectas', 'error');
-                        mostrarCargando(false);
-                    }
-                } else {
-                    // Si no hay respuesta, intentar con método alternativo
-                    intentarLoginAlternativo();
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                intentarLoginAlternativo();
-            }
-        }
-
-        // Método alternativo: Simulación de login exitoso para desarrollo
-        function intentarLoginAlternativo() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            // Simulación para desarrollo
-            if (email === 'admin@masic.com' && password === 'Admin123!') {
-                localStorage.setItem('masic_session', 'DEV_SESSION_' + Date.now());
-                localStorage.setItem('masic_user', JSON.stringify({
-                    userId: 1,
-                    nombre: 'Administrador',
-                    email: 'admin@masic.com',
-                    rol: 'Admin'
-                }));
-                
-                mostrarAlerta('¡Bienvenido Administrador! (Modo desarrollo)', 'success');
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-            } else {
-                mostrarAlerta('Credenciales incorrectas', 'error');
-                mostrarCargando(false);
-            }
-        }
-
-        function mostrarAlerta(mensaje, tipo) {
+        function mostrarAlerta(mensaje, tipo = 'error') {
             const alertContainer = document.getElementById('alertContainer');
-            alertContainer.innerHTML = `<div class="alert alert-${tipo}">${mensaje}</div>`;
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo} show`;
+            alert.textContent = mensaje;
             
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+
             setTimeout(() => {
-                alertContainer.innerHTML = '';
+                alert.classList.remove('show');
             }, 5000);
         }
 
@@ -366,16 +373,96 @@
             if (mostrar) {
                 loading.classList.add('show');
                 btnLogin.disabled = true;
+                btnLogin.textContent = 'Iniciando...';
             } else {
                 loading.classList.remove('show');
                 btnLogin.disabled = false;
+                btnLogin.textContent = 'INICIAR SESIÓN';
             }
         }
 
-        // Auto-redirigir si ya hay sesión
+        // ============================================
+        // LOGIN PRINCIPAL
+        // ============================================
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            if (!email || !password) {
+                mostrarAlerta('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                mostrarAlerta('Por favor ingresa un email válido', 'error');
+                return;
+            }
+
+            try {
+                mostrarCargando(true);
+
+                // SOLUCIÓN CORS: Usar GET con parámetros
+                const params = new URLSearchParams({
+                    accion: 'login',
+                    email: email,
+                    password: password,
+                    userAgent: navigator.userAgent
+                });
+
+                const response = await fetch(`${SCRIPT_URL}?${params.toString()}`, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    // Guardar sesión
+                    localStorage.setItem('masic_session', resultado.session.sessionId);
+                    localStorage.setItem('masic_user', JSON.stringify({
+                        userId: resultado.session.userId,
+                        nombre: resultado.session.nombre,
+                        email: resultado.session.email,
+                        rol: resultado.session.rol
+                    }));
+
+                    if (rememberMe) {
+                        localStorage.setItem('masic_remember', 'true');
+                    }
+
+                    mostrarAlerta('¡Bienvenido ' + resultado.session.nombre + '!', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+
+                } else {
+                    mostrarAlerta(resultado.message || 'Credenciales incorrectas', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión. Por favor intenta nuevamente.', 'error');
+            } finally {
+                mostrarCargando(false);
+            }
+        });
+
+        // ============================================
+        // AUTO-LOGIN SI HAY SESIÓN
+        // ============================================
+
         window.addEventListener('DOMContentLoaded', function() {
             const sessionId = localStorage.getItem('masic_session');
-            if (sessionId) {
+            const remember = localStorage.getItem('masic_remember');
+
+            if (sessionId && remember) {
+                // Redirigir automáticamente si hay sesión guardada
                 window.location.href = 'index.html';
             }
         });
