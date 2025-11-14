@@ -3,180 +3,469 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservas MASIC - Sistema de Reservas de Transporte</title>
-    
-    <!-- Flatpickr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
-    <!-- CSS Principal -->
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Login - Sistema de Reservas Masic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --masic-turquoise: #0487a8;
+            --masic-dark-gray: #58595B;
+            --masic-light-gray: #CCCCCC;
+            --masic-white: #FFFFFF;
+            --masic-gradient: linear-gradient(135deg, #0487a8 0%, #036a82 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--masic-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);
+            pointer-events: none;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+            animation: slideIn 0.5s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-header {
+            background: var(--masic-gradient);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            max-width: 220px;
+            height: auto;
+        }
+
+        .login-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .login-body {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--masic-dark-gray);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid var(--masic-light-gray);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--masic-turquoise);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(4, 135, 168, 0.1);
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle input {
+            padding-right: 45px;
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--masic-turquoise);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .remember-me label {
+            font-size: 14px;
+            color: var(--masic-dark-gray);
+            cursor: pointer;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: var(--masic-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(4, 135, 168, 0.4);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--masic-turquoise);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--masic-turquoise);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid var(--masic-light-gray);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 10px;
+            }
+            
+            .login-header {
+                padding: 30px 20px;
+            }
+            
+            .login-body {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
-<body data-require-auth="true" data-crear-header="true">
-    <!-- Contenedor para header de usuario (se crea automáticamente) -->
-    <div id="userHeader"></div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <h1>🚌 RESERVAS MASIC</h1>
-                <p class="subtitle">Sistema de Reservas de Transporte de Pasajeros</p>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo-container">
+                <img src="Logoajustado.png" alt="Masic Transportes Turismo" onerror="this.style.display='none';">
             </div>
+            <h1>Sistema de Reservas</h1>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <div class="form-wrapper">
-                <div class="form-header">
-                    <h2>📋 Nueva Reserva</h2>
-                    <p>Complete el formulario para solicitar su reserva de transporte</p>
+        <div class="login-body">
+            <div id="alertContainer"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="tu@email.com"
+                        required
+                        autocomplete="email"
+                    >
                 </div>
 
-                <form id="reservaForm" class="reserva-form">
-                    <!-- Información del Solicitante -->
-                    <div class="form-section">
-                        <h3 class="section-title">👤 Información del Solicitante</h3>
-                        
-                        <div class="form-group">
-                            <label for="nombre" class="required">Nombre Completo</label>
-                            <input type="text" id="nombre" name="nombre" 
-                                   placeholder="Ingrese su nombre completo" required>
-                            <span class="error-message" id="error-nombre"></span>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email" class="required">Email</label>
-                                <input type="email" id="email" name="email" 
-                                       placeholder="ejemplo@correo.com" required>
-                                <span class="error-message" id="error-email"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="telefono" class="required">Teléfono</label>
-                                <input type="tel" id="telefono" name="telefono" 
-                                       placeholder="+56 9 1234 5678" required>
-                                <span class="error-message" id="error-telefono"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="direccion">Dirección de Recogida</label>
-                            <input type="text" id="direccion" name="direccion" 
-                                   placeholder="Calle, número, comuna (opcional)">
-                        </div>
-                    </div>
-
-                    <!-- Detalles del Viaje -->
-                    <div class="form-section">
-                        <h3 class="section-title">🗓️ Detalles del Viaje</h3>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fecha" class="required">Fecha del Viaje</label>
-                                <input type="text" id="fecha" name="fecha" 
-                                       placeholder="Seleccione la fecha" required readonly>
-                                <span class="error-message" id="error-fecha"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="horario" class="required">Horario</label>
-                                <input type="text" id="horario" name="horario" 
-                                       placeholder="Ej: 09:00 - 10:30" required>
-                                <span class="error-message" id="error-horario"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="origen" class="required">Origen</label>
-                                <input type="text" id="origen" name="origen" 
-                                       placeholder="Ciudad o lugar de partida" required>
-                                <span class="error-message" id="error-origen"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="destino" class="required">Destino</label>
-                                <input type="text" id="destino" name="destino" 
-                                       placeholder="Ciudad o lugar de llegada" required>
-                                <span class="error-message" id="error-destino"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="pasajeros" class="required">Cantidad de Pasajeros</label>
-                                <input type="number" id="pasajeros" name="pasajeros" 
-                                       min="1" max="50" value="1" required>
-                                <span class="error-message" id="error-pasajeros"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="required">Tipo de Viaje</label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="tipoViaje" value="Solo Ida" checked>
-                                        <span>Solo Ida</span>
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="tipoViaje" value="Ida y Retorno">
-                                        <span>Ida y Retorno</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="observaciones">Observaciones</label>
-                            <textarea id="observaciones" name="observaciones" 
-                                      rows="4" placeholder="Agregue cualquier información adicional relevante (opcional)"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Botones de Acción -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" id="btnLimpiar">
-                            🔄 Limpiar Formulario
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="btnEnviar">
-                            ✅ Enviar Reserva
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="password-toggle">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="toggle-password-btn" id="togglePassword">
+                            👁️
                         </button>
                     </div>
+                </div>
 
-                    <!-- Loading Spinner -->
-                    <div class="loading-spinner" id="loadingSpinner">
-                        <div class="spinner"></div>
-                        <p>Procesando su reserva...</p>
-                    </div>
-                </form>
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Mantener sesión iniciada</label>
+                </div>
+
+                <button type="submit" class="btn-login" id="btnLogin">
+                    INICIAR SESIÓN
+                </button>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                </div>
+            </form>
+
+            <div class="forgot-password">
+                <a href="recuperar-password.html">¿Olvidaste tu contraseña?</a>
             </div>
         </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>Transportes Masic © 2022</p>
-            <p class="footer-note">Sistema de Reservas de Transporte Profesional</p>
+        <div class="footer">
+            Transportes Masic © 2022
         </div>
-    </footer>
+    </div>
 
-    <!-- Sistema de Autenticación - DEBE IR PRIMERO -->
-    <script src="auth.js"></script>
-    
-    <!-- Flatpickr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-    
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- App JS -->
-    <script src="js/app.js"></script>
+    <script>
+        // ============================================
+        // CONFIGURACIÓN
+        // ============================================
+        
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwOSSW33zw7iHgll8gwA7Pqmxs0_7utXPdnlq8d7DgO3tD11i_SBr_HPIfkA5xRTH_mNg/exec';
+
+        // ============================================
+        // TOGGLE PASSWORD
+        // ============================================
+
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            this.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        // ============================================
+        // FUNCIONES DE UI
+        // ============================================
+
+        function mostrarAlerta(mensaje, tipo = 'error') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo} show`;
+            alert.textContent = mensaje;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+
+            setTimeout(() => {
+                alert.classList.remove('show');
+            }, 5000);
+        }
+
+        function mostrarCargando(mostrar) {
+            const loading = document.getElementById('loading');
+            const btnLogin = document.getElementById('btnLogin');
+            
+            if (mostrar) {
+                loading.classList.add('show');
+                btnLogin.disabled = true;
+                btnLogin.textContent = 'Iniciando...';
+            } else {
+                loading.classList.remove('show');
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'INICIAR SESIÓN';
+            }
+        }
+
+        // ============================================
+        // LOGIN PRINCIPAL
+        // ============================================
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            if (!email || !password) {
+                mostrarAlerta('Por favor completa todos los campos', 'error');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                mostrarAlerta('Por favor ingresa un email válido', 'error');
+                return;
+            }
+
+            try {
+                mostrarCargando(true);
+
+                // SOLUCIÓN CORS: Usar GET con parámetros
+                const params = new URLSearchParams({
+                    accion: 'login',
+                    email: email,
+                    password: password,
+                    userAgent: navigator.userAgent
+                });
+
+                const response = await fetch(`${SCRIPT_URL}?${params.toString()}`, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+
+                const resultado = await response.json();
+
+                if (resultado.success) {
+                    // Guardar sesión
+                    localStorage.setItem('masic_session', resultado.session.sessionId);
+                    localStorage.setItem('masic_user', JSON.stringify({
+                        userId: resultado.session.userId,
+                        nombre: resultado.session.nombre,
+                        email: resultado.session.email,
+                        rol: resultado.session.rol
+                    }));
+
+                    if (rememberMe) {
+                        localStorage.setItem('masic_remember', 'true');
+                    }
+
+                    mostrarAlerta('¡Bienvenido ' + resultado.session.nombre + '!', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+
+                } else {
+                    mostrarAlerta(resultado.message || 'Credenciales incorrectas', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error de conexión. Por favor intenta nuevamente.', 'error');
+            } finally {
+                mostrarCargando(false);
+            }
+        });
+
+        // ============================================
+        // AUTO-LOGIN SI HAY SESIÓN
+        // ============================================
+
+        window.addEventListener('DOMContentLoaded', function() {
+            const sessionId = localStorage.getItem('masic_session');
+            const remember = localStorage.getItem('masic_remember');
+
+            if (sessionId && remember) {
+                // Redirigir automáticamente si hay sesión guardada
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
 </body>
 </html>
